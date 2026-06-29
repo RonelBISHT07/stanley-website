@@ -104,8 +104,9 @@ function resizeCanvas() {
     
     // Draw current frame after resize
     const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollFraction = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
+    const scrollContainer = document.getElementById("scroll-container");
+    const scrollHeight = scrollContainer ? scrollContainer.offsetHeight - window.innerHeight : 0;
+    const scrollFraction = scrollHeight > 0 ? Math.max(0, Math.min(1, scrollTop / scrollHeight)) : 0;
     const frameIndex = Math.min(
         frameCount - 1,
         Math.floor(scrollFraction * frameCount)
@@ -145,8 +146,9 @@ function handleScroll() {
     if (scrollTop === lastScrollTop) return;
     lastScrollTop = scrollTop;
 
-    const scrollHeight = document.documentElement.scrollHeight - window.innerHeight;
-    const scrollFraction = scrollHeight > 0 ? scrollTop / scrollHeight : 0;
+    const scrollContainer = document.getElementById("scroll-container");
+    const scrollHeight = scrollContainer ? scrollContainer.offsetHeight - window.innerHeight : 0;
+    const scrollFraction = scrollHeight > 0 ? Math.max(0, Math.min(1, scrollTop / scrollHeight)) : 0;
     
     // Calculate which frame to draw
     const frameIndex = Math.min(
